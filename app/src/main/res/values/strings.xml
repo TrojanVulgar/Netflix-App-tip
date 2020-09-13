@@ -1,0 +1,120 @@
+<resources>
+    <string name="app_name">EasyPlex</string>
+
+
+
+    <!-- Movie Details -->
+    <string name="movie_original_label">Movie Title</string>
+    <string name="movie_release_label">Release Date</string>
+    <string name="movie_genres_text">Thriller, Action, Sci Fi </string>
+    <string name="movie_overview_label">Synopsis</string>
+    <string name="movie_overview_text">A ten year old girl who wanders away from her parents along a path that leads to a
+        world ruled by strange and unusual monster-like animals. Her parents have been changed into pigs along with others
+        inside a bathhouse full of these creatures. Will she ever see the world how it once was?</string>
+    <string name="movie_cast_label">Casts</string>
+
+    <!-- Retry -->
+    <string name="home">Home</string>
+
+    <!-- App Strings  -->
+    <string name="discover">Discover</string>
+    <string name="library">Library</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="streaming">Streaming</string>
+    <string name="live_text">LIVE</string>
+    <string name="share_msg">Hi,I would like to share with you this media called </string>
+    <string name="about_wifi_warning">You have selected to playback on Wi-Fi only. Go to App Settings to change.</string>
+    <string name="about_no_stream">No Stream Available For This Movie Check Later.</string>
+    <string name="about_error_login">Bad Credentials. Please Login Again.</string>
+    <string name="err_email">The email must be a valid email address.</string>
+    <string name="err_name">The name field is required.</string>
+    <string name="err_password">The password must be at least 6 characters.</string>
+    <string name="controller_time_position_text_default">00:00:00</string>
+    <string name="no_media_error_message">A MediaModel needs to be passed to the intent on activity start to play media</string>
+    <string name="commercial">Commercial</string>
+    <string name="movies_amp_series"><![CDATA[MOVIES & Series]]></string>
+    <string name="settings">settings</string>
+    <string name="title">TITLE</string>
+    <string name="genre">Genre</string>
+    <string name="lecture">lecture</string>
+    <string name="play_trailer">Play Trailer</string>
+    <string name="release_date">RELEASE DATE</string>
+    <string name="seasons_8">Seasons:8</string>
+    <string name="genre_action_horror">Genre, Action, Horror</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="details">Details</string>
+    <string name="no_trailer_found">No Trailer Found</string>
+    <string name="starring">Starring</string>
+    <string name="seasons">Seasons</string>
+    <string name="moviecover">MovieCover</string>
+    <string name="search_movies_series">Search Movies, Series</string>
+    <string name="no_relateds_movies_found">No Relateds Movies Found</string>
+    <string name="no_list_result">Add movies and TV shows to your list</string>
+    <string name="no_streaming_result">No Streaming Channels Found !</string>
+    <string name="list_add_later">list so you can easily find them later</string>
+    <string name="premuim">Premuim</string>
+    <string name="already_have_an_account">Already have an account ?</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="register">R E G I S T E R</string>
+    <string name="update_profile">U P D A T E</string>
+    <string name="copyright">Copyright © 2020 EASYPLEX. All rights reserved.</string>
+    <string name="image">Image</string>
+    <string name="start_watching">START WATCHING</string>
+    <string name="register_sucess">The Registration was successful</string>
+    <string name="suggested_programmes">Suggested Programmes</string>
+    <string name="no_featured_movies_found">No Featured Movies Found</string>
+    <string name="recommended_for_you">RECOMMENDED FOR YOU</string>
+    <string name="trending_now">Trending Now</string>
+    <string name="new_releases">NEW RELEASES</string>
+    <string name="popular_series">POPULAR SERIES</string>
+    <string name="latest_series">LATEST SERIES</string>
+    <string name="new_this_week">NEW THIS WEEK</string>
+    <string name="latest_animes">LATEST ANIMES</string>
+    <string name="most_popular">Most Popular</string>
+    <string name="auth_name">Auth Name</string>
+    <string name="user_EasyPlex_com">user@EasyPlex.com</string>
+    <string name="free">Free</string>
+    <string name="allow_notifications">Allow Notifications</string>
+    <string name="wi_fi_only">Wi-Fi Only</string>
+    <string name="auto_play">Auto Play</string>
+    <string name="substitle_size">Substitle Size</string>
+    <string name="current_size">Current Size</string>
+    <string name="clear_my_list">Clear My List</string>
+    <string name="clear_my_list_msg">Do you Realy want to Clear All Items in your List ?</string>
+    <string name="clear_cache_msg">This will be clear cached data for this app !</string>
+    <string name="clear_cache">Clear Cache</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="about_us">About Us</string>
+    <string name="confirm">Confirm</string>
+    <string name="trailer_loading">Trailer Loading</string>
+    <string name="genres_list_is_empty">Genres List is empty</string>
+    <string name="episodes">Episodes</string>
+    <string name="next_episode">Next Episode</string>
+    <string name="ep_n">EP N</string>
+    <string name="check_later">Check Later</string>
+    <string name="report">Report</string>
+    <string name="build_bersion">\"Build Version \"</string>
+    <string name="privacy_amp_policy"><![CDATA[Privacy & Policy]]></string>
+    <string name="decilne">DECILNE</string>
+    <string name="accept">ACCEPT</string>
+    <string name="relateds">Relateds</string>
+    <string name="substitles">Substitles</string>
+    <string name="login">L O G I N</string>
+    <string name="signup">SIGN UP FOR AN ACCOUNT?</string>
+    <string name="no_upcoming_movies_added">No Upcoming Movies Added</string>
+    <string name="this_content_if_only_for_vip">This Content if only for VIP</string>
+    <string name="sorry">SORRY !</string>
+    <string name="back">BACK</string>
+    <string name="qualities">Qualities</string>
+    <string name="ad">Ad</string>
+    <string name="please_try_another_genre">Please try another genre.</string>
+    <string name="try_searching_for_another_movie_show">Try Searching for another movie,show</string>
+    <string name="oh_darn_we_don_t_have_that">Oh darn. We don\'t have that</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="rate_this_app">RATE THIS APP</string>
+    <string name="support">SUPPORT</string>
+
+
+</resources>

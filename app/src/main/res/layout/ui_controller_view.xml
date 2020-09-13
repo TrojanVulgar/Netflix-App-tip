@@ -1,0 +1,814 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <import type="com.google.android.exoplayer2.ExoPlayer" />
+
+        <import type="android.view.View" />
+
+
+        <variable
+            name="controller"
+            type="com.easyplex.ui.player.bindings.PlayerController" />
+    </data>
+
+
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/exo_artwork"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:imageUrl="@{controller.currentMediaCover}"
+            android:scaleType="centerCrop"
+            android:visibility="@{controller.playerPlaybackState == ExoPlayer.STATE_IDLE || controller.playerPlaybackState == ExoPlayer.STATE_ENDED ? View.VISIBLE : View.GONE}"
+            android:contentDescription="@string/image" />
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/controller_panel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/player_controls_overlay"
+            android:orientation="vertical"
+            android:visibility="visible"
+            >
+
+
+            <TextView
+                android:id="@+id/view_tubi_controller_title"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center_horizontal"
+                android:text="@{controller.videoName}"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/grey_11"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:fontFamily="sans-serif-black"
+                android:visibility="@{controller.isCurrentAd ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="@+id/tubi_tv_controller_guideline_left"
+                app:layout_constraintRight_toLeftOf="@+id/view_tubi_controller_subtitles_ib"
+                app:layout_constraintTop_toTopOf="@+id/tubi_tv_controller_guideline_top"
+                tools:text="TITLE" />
+
+
+            <ImageButton
+                android:id="@+id/view_tubi_controller_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/pixel_20dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/ic_arrow_back"
+                android:contentDescription="@string/image"
+                android:onClick="@{()-> controller.closePlayer()}"
+                app:layout_constraintLeft_toLeftOf="@+id/tubi_tv_controller_guideline_left"
+                app:layout_constraintTop_toTopOf="@+id/tubi_tv_controller_guideline_top" />
+
+
+            <TextView
+                android:id="@+id/view_islive"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_20"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/red_live"
+                android:paddingLeft="4dp"
+                android:paddingTop="3dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="4dp"
+                android:layout_marginStart="25dp"
+                android:text="@string/live_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/grey_11"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="@{controller.isLive ? View.VISIBLE : View.GONE}"
+                app:fontFamily="sans-serif-black"
+                app:layout_constraintLeft_toRightOf="@+id/view_tubi_controller_close"
+                app:layout_constraintTop_toTopOf="@+id/tubi_tv_controller_guideline_top"
+                tools:text="LIVE" />
+
+            <com.easyplex.ui.player.views.SubstitleImageButton
+                android:id="@+id/view_tubi_controller_subtitles_ib"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:layout_marginEnd="@dimen/pixel_20dp"
+                android:layout_marginTop="1dp"
+                android:onClick="@{()-> controller.triggerSubtitlesToggle(!controller.isMediaSubstitleEnabled)}"
+                android:visibility="@{controller.mediaHasSubstitle &amp;&amp; !controller.isCurrentAd ? View.VISIBLE : View.GONE}"
+                app:layout_constraintRight_toLeftOf="@id/tubi_tv_controller_guideline_right"
+                app:layout_constraintTop_toTopOf="@+id/tubi_tv_controller_guideline_top"
+                app:setCheckedState="@{controller.isMediaSubstitleEnabled}"
+                app:state_checked="@drawable/tubi_tv_drawable_subtitles_on_selector"
+                app:state_not_checked="@drawable/tubi_tv_drawable_subtitles_off_selector" />
+
+
+
+            <ImageView
+                android:id="@+id/view_tubi_controller_app_settings"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/image"
+                android:visibility="@{controller.isCurrentAd ? View.INVISIBLE : View.VISIBLE}"
+                android:onClick="@{() -> controller.clickQualitySettings()}"
+                android:src="@drawable/ic_settings"
+                app:layout_constraintRight_toLeftOf="@id/view_tubi_controller_scale_ib"
+                app:layout_constraintTop_toTopOf="@+id/tubi_tv_controller_guideline_top" />
+
+
+
+            <ImageView
+                android:id="@+id/view_tubi_controller_scale_ib"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="18dp"
+                android:contentDescription="@string/image"
+                android:onClick="@{() -> controller.scale()}"
+                android:visibility="@{controller.isCurrentAd ? View.INVISIBLE : View.VISIBLE}"
+                android:src="@drawable/ic_rotate"
+                android:tint="@color/white"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintRight_toLeftOf="@id/view_tubi_controller_subtitles_ib"
+                app:layout_constraintTop_toTopOf="@+id/tubi_tv_controller_guideline_top" />
+
+
+
+
+
+            <ImageButton
+                android:id="@+id/view_tubi_controller_rewind_ib"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="90dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/tubi_tv_rew_15_selector"
+                android:onClick="@{() -> controller.seekBy(-1500 * 10)}"
+                android:scaleType="fitCenter"
+                android:visibility="@{controller.isCurrentAd ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@+id/view_tubi_controller_play_toggle_ib"
+                app:layout_constraintRight_toLeftOf="@+id/view_tubi_controller_play_toggle_ib"
+                app:layout_constraintTop_toTopOf="@+id/view_tubi_controller_play_toggle_ib"
+                android:contentDescription="@string/image" />
+
+
+
+            <com.easyplex.ui.player.views.PlayStateImageButton
+                android:id="@+id/view_tubi_controller_play_toggle_ib"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:onClick="@{() -> controller.triggerPlayOrPause(!controller.isVideoPlayWhenReady)}"
+                android:scaleType="fitCenter"
+                android:visibility="@{controller.playerPlaybackState == ExoPlayer.STATE_BUFFERING ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:setCheckedState="@{controller.isVideoPlayWhenReady}"
+                app:state_checked="@drawable/tubi_tv_drawable_pause_selector"
+                app:state_not_checked="@drawable/tubi_tv_drawable_play_selector" />
+
+
+
+            <ImageButton
+                android:id="@+id/view_tubi_controller_forward_ib"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="90dp"
+                android:background="@drawable/tubi_tv_fwd_15_selector"
+                android:onClick="@{() -> controller.seekBy(1500 * 10)}"
+                android:scaleType="fitCenter"
+                android:visibility="@{controller.isCurrentAd ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@+id/view_tubi_controller_play_toggle_ib"
+                app:layout_constraintLeft_toRightOf="@+id/view_tubi_controller_play_toggle_ib"
+                app:layout_constraintTop_toTopOf="@+id/view_tubi_controller_play_toggle_ib"
+                android:contentDescription="@string/image" />
+
+
+
+
+
+            <TextView
+                android:id="@id/view_tubi_controller_elapsed_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="@{controller.mediaPositionInString ?? @string/controller_time_position_text_default }"
+                android:textAllCaps="true"
+                android:layout_marginBottom="30dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/grey_11"
+                android:textSize="@dimen/view_tubi_controller_text_size"
+                app:fontFamily="sans-serif-black"
+                app:layout_constraintBottom_toTopOf="@id/tubi_tv_controller_guideline_bottom"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="@id/tubi_tv_controller_guideline_left"
+                app:layout_constraintRight_toLeftOf="@id/tubi_tv_controller_guideline_seek_left"
+                app:layout_constraintTop_toTopOf="@id/view_tubi_controller_seek_bar"
+                tools:text="@string/controller_time_position_text_default"
+                android:visibility="@{controller.isCurrentAd ? View.INVISIBLE : View.VISIBLE}"
+
+                />
+
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:onClick="@{()-> controller.clickOnSubs()}"
+                android:visibility="@{controller.videoHasID &amp;&amp; controller.mediaEnded == false &amp;&amp; !controller.isCurrentAd ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tubi_tv_controller_guideline_bottom"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/view_episodes"
+                app:layout_constraintTop_toTopOf="@id/view_tubi_controller_seek_bar"
+
+                >
+
+            <ImageButton
+               android:id="@+id/view_tubi_controller_substitles_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="@dimen/padding_10"
+                android:onClick="@{()-> controller.clickOnSubs()}"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/ic_cc"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/image" />
+
+
+                <TextView
+                    android:id="@+id/view_tubi_controller_substitle_curent_lang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:textAllCaps="true"
+                    android:text="@{controller.videoCurrentSubs}"
+                    android:layout_marginTop="18dp"
+                    android:onClick="@{()-> controller.clickOnSubs()}"
+                    android:layout_marginBottom="8dp"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/grey_11"
+                    android:textSize="12sp"
+                    app:fontFamily="sans-serif-black"
+                    tools:text="Substitles"
+
+                    />
+
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:id="@+id/view_episodes_animes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> controller.onLoadEpisodes()}"
+                android:layout_marginTop="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tubi_tv_controller_guideline_bottom"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/view_tubi_controller_seek_bar"
+                android:visibility="@{controller.mediaType.equals(`anime`) &amp;&amp; controller.mediaEnded == false &amp;&amp; !controller.isCurrentAd ? View.VISIBLE : View.GONE}"
+
+                >
+
+
+                <ImageButton
+                    android:id="@+id/view_tubi_controller_episodes_animes"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/padding_10"
+                    android:onClick="@{() -> controller.onLoadEpisodes()}"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/ic_subject"
+                    android:contentDescription="@string/image" />
+
+
+
+
+                <TextView
+                    android:id="@+id/view_tubi_controller_episodes_text_animes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:textAllCaps="true"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="8dp"
+                    android:onClick="@{() -> controller.onLoadEpisodes()}"
+                    android:text="@string/episodes"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/grey_11"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:fontFamily="sans-serif-black"
+                    tools:text="Episodes"
+
+                    />
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/view_episodes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> controller.onLoadEpisodes()}"
+                android:layout_marginTop="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tubi_tv_controller_guideline_bottom"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/view_tubi_controller_seek_bar"
+                android:visibility="@{controller.mediaType.equals(`1`) &amp;&amp; controller.mediaEnded == false &amp;&amp; !controller.isCurrentAd ? View.VISIBLE : View.GONE}"
+
+                >
+
+
+                <ImageButton
+                    android:id="@+id/view_tubi_controller_episodes"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/padding_10"
+                    android:onClick="@{() -> controller.onLoadEpisodes()}"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/ic_subject"
+                    android:contentDescription="@string/image" />
+
+
+
+
+                <TextView
+                    android:id="@+id/view_tubi_controller_episodes_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:textAllCaps="true"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="8dp"
+                    android:onClick="@{() -> controller.onLoadEpisodes()}"
+                    android:text="@string/episodes"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/grey_11"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:fontFamily="sans-serif-black"
+                    tools:text="Episodes"
+
+                    />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/view_streaming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> controller.onLoadStreaming()}"
+                android:layout_marginTop="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tubi_tv_controller_guideline_bottom"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/view_tubi_controller_seek_bar"
+                android:visibility="@{controller.mediaType.equals(`streaming`) &amp;&amp; controller.mediaEnded == false ? View.VISIBLE : View.GONE}"
+
+                >
+
+
+                <ImageButton
+                    android:id="@+id/view_tubi_controller_streaming"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/padding_10"
+                    android:onClick="@{() -> controller.onLoadStreaming()}"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/ic_live"
+                    android:backgroundTint="@color/grey_11"
+                    android:contentDescription="@string/image" />
+
+
+
+
+                <TextView
+                    android:id="@+id/view_tubi_controller_streaming_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:textAllCaps="true"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="8dp"
+                    android:onClick="@{() -> controller.onLoadStreaming()}"
+                    android:text="@string/streaming"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/grey_11"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:fontFamily="sans-serif-black"
+                    tools:text="More Streaming"
+
+                    />
+
+
+            </LinearLayout>
+
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/view_next_episode_animes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> controller.nextEpisode()}"
+                android:layout_marginTop="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tubi_tv_controller_guideline_bottom"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/view_episodes"
+                app:layout_constraintTop_toTopOf="@id/view_tubi_controller_seek_bar"
+                android:visibility="@{controller.mediaType.equals(`anime`) &amp;&amp; controller.mediaEnded == false &amp;&amp; !controller.isCurrentAd ? View.VISIBLE : View.GONE}"
+
+                >
+
+
+
+                <ImageButton
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="12dp"
+                    android:onClick="@{() -> controller.nextEpisode()}"
+                    android:layout_marginEnd="@dimen/padding_10"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/exo_controls_next"
+                    android:contentDescription="@string/image" />
+
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:textAllCaps="true"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/next_episode"
+                    android:onClick="@{() -> controller.nextEpisode()}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/grey_11"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:fontFamily="sans-serif-black"
+                    tools:text="Next Episode"
+
+                    />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/view_next_episode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> controller.nextEpisode()}"
+                android:layout_marginTop="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tubi_tv_controller_guideline_bottom"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/view_episodes"
+                app:layout_constraintTop_toTopOf="@id/view_tubi_controller_seek_bar"
+                android:visibility="@{controller.mediaType.equals(`1`) &amp;&amp; controller.mediaEnded == false &amp;&amp; !controller.isCurrentAd ? View.VISIBLE : View.GONE}"
+
+                >
+
+
+
+                <ImageButton
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="12dp"
+                    android:onClick="@{() -> controller.nextEpisode()}"
+                    android:layout_marginEnd="@dimen/padding_10"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/exo_controls_next"
+                    android:contentDescription="@string/image" />
+
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:textAllCaps="true"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/next_episode"
+                    android:onClick="@{() -> controller.nextEpisode()}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/grey_11"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:fontFamily="sans-serif-black"
+                    tools:text="Next Episode"
+
+                    />
+
+            </LinearLayout>
+
+
+
+
+
+            <ImageButton
+                android:id="@+id/view_tubi_controller_subtitles_ib_ib"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="90dp"
+                android:background="@drawable/tubi_tv_fwd_15_selector"
+                android:onClick="@{() -> controller.seekBy(1500 * 10)}"
+                android:scaleType="fitCenter"
+                android:visibility="@{controller.isCurrentAd ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@+id/view_tubi_controller_play_toggle_ib"
+                app:layout_constraintLeft_toRightOf="@+id/view_tubi_controller_play_toggle_ib"
+                app:layout_constraintTop_toTopOf="@+id/view_tubi_controller_play_toggle_ib"
+                android:contentDescription="@string/image" />
+
+
+
+
+
+
+            <SeekBar
+                android:id="@+id/view_tubi_controller_seek_bar"
+                style="@style/PlayerSeekBar"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:max="@{(int)controller.mediaDuration}"
+                android:maxHeight="1dp"
+                android:minHeight="1dp"
+                android:onProgressChanged="@{controller::onProgressChanged}"
+                android:onStopTrackingTouch="@{controller::onStopTrackingTouch}"
+                android:onTouch="@{()-> controller.isCurrentVideoAd}"
+                android:onStartTrackingTouch="@{controller::onStartTrackingTouch}"
+                android:progress="@{(int)controller.mediaCurrentTime}"
+                android:secondaryProgress="@{(int)controller.mediaBufferedPosition}"
+                android:visibility="@{controller.isCurrentAd ? View.INVISIBLE : View.VISIBLE }"
+                app:layout_constraintBottom_toTopOf="@+id/tubi_tv_controller_guideline_bottom"
+                app:layout_constraintLeft_toLeftOf="@+id/tubi_tv_controller_guideline_seek_left"
+                app:layout_constraintRight_toLeftOf="@+id/tubi_tv_controller_guideline_seek_right" />
+
+
+
+            <TextView
+                android:id="@+id/view_tubi_controller_remaining_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="@{controller.mediaRemainInString ?? @string/controller_time_position_text_default }"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/grey_11"
+                android:textSize="@dimen/view_tubi_controller_text_size"
+                app:fontFamily="sans-serif-black"
+                android:layout_marginBottom="30dp"
+                android:visibility="@{controller.isCurrentAd ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/view_tubi_controller_elapsed_time"
+                app:layout_constraintRight_toLeftOf="@+id/tubi_tv_controller_guideline_right"
+                tools:text="@string/controller_time_position_text_default" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@id/tubi_tv_controller_guideline_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="32dp" />
+
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@id/tubi_tv_controller_guideline_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/pixel_20dp" />
+
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@id/tubi_tv_controller_guideline_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/pixel_20dp" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@id/tubi_tv_controller_guideline_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="@dimen/pixel_20dp" />
+
+
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@id/tubi_tv_controller_guideline_seek_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="84dp" />
+
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@id/tubi_tv_controller_guideline_seek_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="84dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <FrameLayout
+            android:id="@+id/next_play_framelayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_marginBottom="45dp"
+            android:layout_marginStart="@dimen/pixel_20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="@{controller.isCurrentAd ? View.VISIBLE : View.INVISIBLE}"
+            android:gravity="bottom"
+            android:minHeight="?attr/actionBarSize"
+            android:orientation="horizontal"
+
+
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="3dp"
+                tools:ignore="UselessParent">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="3dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:layout_marginBottom="2dp"
+                        android:orientation="horizontal"
+                        >
+
+
+                        <TextView
+                            android:id="@+id/text_view_video_time_remaining"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginEnd="@dimen/spacing_middle"
+                            android:text="@{controller.adsRemainInString}"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                            android:textColor="@color/grey_11"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            tools:text="Up Next in : 15 sec" />
+
+
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:id="@+id/image_view_movie_next"
+                        android:layout_width="120dp"
+                        android:layout_height="63dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginEnd="5dp"
+                        android:imageUrl="@{controller.currentMediaCover}"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="@string/image" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        >
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/spacing_middle"
+                            android:text="@{controller.videoName}"
+                            android:layout_marginTop="5dp"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                            android:textColor="@color/grey_11"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            tools:text="TITLE" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+
+
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="false"
+            android:layout_gravity="bottom"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:visibility="@{controller.isCurrentAd ? View.VISIBLE : View.INVISIBLE }"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:progress="@{(int)controller.mediaCurrentTime}"
+            android:max="@{(int)controller.mediaDuration}"
+            android:progressDrawable="@drawable/progressbar_ads" />
+
+
+        <com.tubitv.ui.TubiLoadingView
+            android:id="@+id/view_tubi_controller_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:tint="@color/golden_gate"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:tubi_loading_toggle="@{controller.playerPlaybackState == ExoPlayer.STATE_BUFFERING || controller.playerPlaybackState == ExoPlayer.STATE_IDLE }">
+
+        </com.tubitv.ui.TubiLoadingView>
+
+
+    </FrameLayout>
+</layout>
